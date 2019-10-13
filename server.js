@@ -8,14 +8,26 @@ const tasks = require("./routes/tasks");
 
 const app = express();
 
-// body parser middleware
-app.use(bodyParser.json());
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Cache-Control"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+  );
+  next();
+});
 
 app.use(
   bodyParser.urlencoded({
     extended: false
   })
 );
+// body parser middleware
+app.use(bodyParser.json());
 
 const db = require("./config/secret.js").mongoURI;
 

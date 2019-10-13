@@ -13,7 +13,7 @@ const User = require("../models/users");
 // @desc Register user
 // @ access Public
 
-router.post("/register", (req, res) => {
+router.post("/register", (req, res, next) => {
 
   const {errors, isValid} = validateRegisterInput(req.body);
 
@@ -36,7 +36,10 @@ router.post("/register", (req, res) => {
           if(err) throw err;
           newUser.password = hash;
           newUser.save()
-          .then(user => res.json(user))
+          .then(user => {
+            res.json({user:user})
+            return res.send();
+          })
           .catch(err => console.log(err));
         });
       });
@@ -49,16 +52,19 @@ router.post("/register", (req, res) => {
 // @access Public
 
 router.post("/login", (req, res) => {
+
+  const {errors, isValid} = validateLoginInput(req.body);
+
   if(!isValid){
     return res.status(400).json
   }
 
-  const name = req.body.name;
+  const email = req.body.email;
   const password = req.body.password;
 
-  User.findOne({name}).then(user => {
+  User.findOne({email}).then(user => {
     if(!user){
-      return res.status(404).json({namenotfound : "Name not found"});
+      return res.status(404).json({namenotfound : "Email not found"});
     }
 
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -77,7 +83,8 @@ router.post("/login", (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              token: "Bearer" + token
+              token: "Bearer" + token,
+              user: user
             });
           }
         );
