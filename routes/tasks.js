@@ -4,6 +4,32 @@ const isEmpty = require("is-empty");
 const User = require("../models/users")
 const Task = require("../models/tasks");
 
+
+router.post("/addmultiple", (req, res) => {
+  User.findById(req.body.user_id).then(user => {
+    function addTask(task, longTerm){
+        const newTask = new Task({
+          longTermGoal: longTerm,
+          name: task,
+          user_id: req.body.user_id,
+        })
+        user.tasks.push(newTask);
+        newTask.save()
+        .then(() => console.log("success"))
+        .catch(err => console.log(err))
+      }
+    if(req.body.weeklies!==[]){
+      req.body.weeklies.forEach(x => addTask(x, false))
+    }
+    if(req.body.longTerms!==[]){
+      req.body.longTerms.forEach(x => addTask(x, true))
+    }
+    user.save()
+    .then(updatedUser => res.send(updatedUser))
+    .catch(err => console.log(err))
+  }).catch(err=> console.log(err))
+
+})
 router.post("/add", (req,res) => {
   let errors = {}
   if(isEmpty(req.body.name)){

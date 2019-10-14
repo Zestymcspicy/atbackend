@@ -15,11 +15,21 @@ const User = require("../models/users");
 // @ access Public
 
 router.put("/update", async (req, res, next) => {
-  // console.log(req)
-  let updatedUser = await User.findOneAndUpdate(req.body.user._id, req.body.user.tasks, {new: true})
-  // let updatedTask = await Task.findOneAndUpdate(req.body.task._id, req.body.task, {new:true})
-  res.json(updatedUser).send();
-  // .catch(err=> err.send());
+  // if necessary rework this
+  // Task.findbyId(req.body.task._id).then(task => {
+  //   task = req.body.task;
+  //   task.save()
+  //   res.send(task)
+  // }).catch(err=>console.log(err))
+  // to here...
+  User.findById(req.body.user._id).then(user =>{
+    user.tasks=req.body.user.tasks
+    user.save()
+    .then(updatedUser => {
+      return res.send(updatedUser)
+    })
+    .catch(err=>console.log(err))
+  });
 })
 
 router.post("/register", (req, res, next) => {
