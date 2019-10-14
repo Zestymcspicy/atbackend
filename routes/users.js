@@ -7,12 +7,20 @@ const secret = require("../config/secret");
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 
-const Task = require("../models/tasks.js")
+const Task = require("../models/tasks")
 const User = require("../models/users");
 
 // @route POST api/users/register
 // @desc Register user
 // @ access Public
+
+router.put("/update", async (req, res, next) => {
+  // console.log(req)
+  let updatedUser = await User.findOneAndUpdate(req.body.user._id, req.body.user.tasks, {new: true})
+  // let updatedTask = await Task.findOneAndUpdate(req.body.task._id, req.body.task, {new:true})
+  res.json(updatedUser).send();
+  // .catch(err=> err.send());
+})
 
 router.post("/register", (req, res, next) => {
 
