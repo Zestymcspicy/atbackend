@@ -16,6 +16,7 @@ router.post("/add", (req,res) => {
     return res.status(400).json(errors);
   } else {
     const newTask = new Task({
+      longTermGoal: req.body.longTermGoal,
       name: req.body.name,
       user_id: req.body.user_id,
     })
@@ -23,7 +24,7 @@ router.post("/add", (req,res) => {
       if(!user){
         return res.status(404).json({usernotfound: "user not found!"})
       }
-      user.tasks.push(newTask._id);
+      user.tasks.push(newTask);
       user.save();
     })
     newTask.save()

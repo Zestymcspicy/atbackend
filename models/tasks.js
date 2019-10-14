@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 const TaskSchema = new Schema({
   name: {type: String, required: true},
   user_id: {type: String, required: true},
+  completed: {type: Boolean, default: false},
   date: {type: Date, default: Date.now},
-  isLarger: {type: Boolean, default: false},
+  longTermGoal: Boolean,
   comments: {type: Array, default: []},
   subtasks: {type: Array, default: []},
   subTaskOf: {type: String, default: null},

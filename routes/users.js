@@ -7,6 +7,7 @@ const secret = require("../config/secret");
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
 
+const Task = require("../models/tasks.js")
 const User = require("../models/users");
 
 // @route POST api/users/register
@@ -81,6 +82,9 @@ router.post("/login", (req, res) => {
             expiresIn: 315569296
           },
           (err, token) => {
+            if(err){
+              return next(err);
+            }
             res.json({
               success: true,
               token: "Bearer" + token,
