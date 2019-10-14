@@ -29,7 +29,7 @@ app.use(
 // body parser middleware
 app.use(bodyParser.json());
 
-const db = require("./config/secret.js").mongoURI;
+const db = require("./config/secret.js").mongoURI||process.env.MONGOURI;
 
 mongoose.connect(db, {
   useNewUrlParser:true,
