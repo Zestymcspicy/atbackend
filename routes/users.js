@@ -71,7 +71,6 @@ router.post("/register", (req, res, next) => {
 // @access Public
 
 router.post("/login", (req, res) => {
-
   const {errors, isValid} = validateLoginInput(req.body);
 
   if(!isValid){
@@ -103,11 +102,22 @@ router.post("/login", (req, res) => {
             if(err){
               return next(err);
             }
-            res.json({
-              success: true,
-              token: "Bearer" + token,
-              user: user
-            });
+            if(user.isAdmin===true){
+              User.find({}).then(docs => {
+                res.json({
+                  allUsers: docs,
+                  success: true,
+                  token: "Bearer" + token,
+                  user: user
+                });
+              }).catch(err => console.log(err))
+            } else {
+              res.json({
+                success: true,
+                token: "Bearer" + token,
+                user: user
+              });
+            }
           }
         );
       } else {
