@@ -45,6 +45,7 @@ router.post("/add", (req,res) => {
       longTermGoal: req.body.longTermGoal,
       name: req.body.name,
       user_id: req.body.user_id,
+      dueDate: req.body.dueDate
     })
     User.findOne({_id:newTask.user_id}).then(user => {
       if(!user){

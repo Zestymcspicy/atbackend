@@ -6,6 +6,7 @@ const TaskSchema = new Schema({
   user_id: {type: String, required: true},
   completed: {type: Boolean, default: false},
   date: {type: Date, default: Date.now},
+  dueDate: Date,
   longTermGoal: Boolean,
   comments: {type: Array, default: []},
   subtasks: {type: Array, default: []},

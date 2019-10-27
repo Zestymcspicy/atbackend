@@ -22,11 +22,11 @@ router.put("/update", async (req, res, next) => {
   //   res.send(task)
   // }).catch(err=>console.log(err))
   // to here...
-  User.findById(req.body.user._id).then(user =>{
-    user.tasks=req.body.user.tasks
+  User.findById(req.body.updatedUser._id).then(user =>{
+    user.tasks=req.body.updatedUser.tasks
     user.save()
-    .then(updatedUser => {
-      return res.send(updatedUser)
+    .then(returnedUser => {
+      return res.send(returnedUser)
     })
     .catch(err=>console.log(err))
   });
