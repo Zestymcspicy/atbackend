@@ -35,8 +35,8 @@ router.put("/update", async (req, res, next) => {
 router.delete("/delete", (req, res, next) => {
   console.log(req.body._id)
   User.deleteOne({_id: req.body._id})
-  .then(res.send({message: "deleted"}))
-  .catch(res.send({message: "error!"}))
+  .then(res.json({message:"deleted!"}).send())
+  .catch(res.json({message: "error!"}).send())
 })
 
 
