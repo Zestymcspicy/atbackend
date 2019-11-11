@@ -23,12 +23,23 @@ router.put("/update", async (req, res, next) => {
   // }).catch(err=>console.log(err))
   // to here...
   User.findById(req.body.updatedUser._id).then(user =>{
-    user.tasks=req.body.updatedUser.tasks
-    user.save()
-    .then(returnedUser => {
-      return res.send(returnedUser)
-    })
-    .catch(err=>console.log(err))
+    user.tasks = req.body.updatedUser.tasks
+    // let completed = user.tasks.filter(x => x.completed===true)
+    // console.log(completed)
+    user.save( function(err) {
+    if(err) {
+      console.log(err)
+      return next(err);
+    }
+    res.send({
+      body: user,
+    });
+  })
+    // user.update(req.body.updatedUser)
+    // .then(returnedUser => {
+    //   return res.send(returnedUser)
+    // })
+    // .catch(err=>console.log(err))
   });
 })
 
