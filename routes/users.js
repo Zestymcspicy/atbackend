@@ -59,13 +59,13 @@ router.post("/register", (req, res, next) => {
     return res.status(400).json(errors)
   }
 
-  User.findOne({email: req.body.email}).then(user => {
+  User.findOne({name: req.body.name}).then(user => {
     if(user) {
-      return res.status(400).json({email: "Email is already in use"});
+      return res.status(400).json({name: "name is already in use"});
     } else {
       const newUser = new User({
         name: req.body.name,
-        email: req.body.email,
+        // name: req.body.name,
         password: req.body.password
       });
 
@@ -96,12 +96,12 @@ router.post("/login", (req, res) => {
     return res.status(400).json
   }
 
-  const email = req.body.email;
+  const name = req.body.name;
   const password = req.body.password;
 
-  User.findOne({email}).then(user => {
+  User.findOne({name}).then(user => {
     if(!user){
-      return res.status(404).json({namenotfound : "Email not found"});
+      return res.status(404).json({namenotfound : "name not found"});
     }
 
     bcrypt.compare(password, user.password).then(isMatch => {
