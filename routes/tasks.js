@@ -12,6 +12,7 @@ router.post("/addmultiple", (req, res) => {
           longTermGoal: longTerm,
           name: task,
           user_id: req.body.user_id,
+          user_name: req.body.user_name
         })
         user.tasks.push(newTask);
         newTask.save()

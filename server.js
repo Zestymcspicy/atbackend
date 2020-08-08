@@ -29,8 +29,8 @@ app.use(
 // body parser middleware
 app.use(bodyParser.json());
 
-// const db = require("./config/secret.js").mongoURI||process.env.MONGOURI;
-const db = process.env.MONGOURI
+const db = require("./config/secret.js").mongoURI||process.env.MONGOURI;
+// const db = process.env.MONGOURI
 
 mongoose.connect(db, {
   useNewUrlParser:true,

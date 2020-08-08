@@ -15,17 +15,8 @@ const User = require("../models/users");
 // @ access Public
 
 router.put("/update", async (req, res, next) => {
-  // if necessary rework this
-  // Task.findbyId(req.body.task._id).then(task => {
-  //   task = req.body.task;
-  //   task.save()
-  //   res.send(task)
-  // }).catch(err=>console.log(err))
-  // to here...
   User.findById(req.body.updatedUser._id).then(user =>{
     user.tasks = req.body.updatedUser.tasks
-    // let completed = user.tasks.filter(x => x.completed===true)
-    // console.log(completed)
     user.save( function(err) {
     if(err) {
       console.log(err)
@@ -35,11 +26,7 @@ router.put("/update", async (req, res, next) => {
       body: user,
     });
   })
-    // user.update(req.body.updatedUser)
-    // .then(returnedUser => {
-    //   return res.send(returnedUser)
-    // })
-    // .catch(err=>console.log(err))
+
   });
 })
 
